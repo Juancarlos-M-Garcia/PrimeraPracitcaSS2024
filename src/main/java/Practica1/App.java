@@ -1,13 +1,13 @@
 package Practica1;
 
-/**
- * Hello world!
- *
- */
-public class App 
+
+import Practica1.views.WelcomeView;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        WelcomeView welcome = new WelcomeView();
+        welcome.show();
     }
 }
