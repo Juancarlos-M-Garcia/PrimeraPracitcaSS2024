@@ -1,5 +1,5 @@
 package com.practica1;
-
+import java_cup.runtime.*;
 
 import com.practica1.views.WelcomeView;
 

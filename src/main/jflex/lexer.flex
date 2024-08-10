@@ -1,4 +1,5 @@
-package Practica1.analizador;
+package com.practica1.analizador;
+import java_cup.runtime.*
 
 %%
 
