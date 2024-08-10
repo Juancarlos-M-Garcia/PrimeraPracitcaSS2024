@@ -1,8 +1,5 @@
 package Practica1;
-
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static Practica1.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.

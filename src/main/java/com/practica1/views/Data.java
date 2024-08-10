@@ -1,4 +1,4 @@
-package Practica1.views;
+package com.practica1.views;
 
 import javax.swing.JFrame;
 
