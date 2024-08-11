@@ -50,7 +50,7 @@ public class WelcomeView {
 
                 // Crear y mostrar el segundo JFrame
                 PrincipalView frame2 = new PrincipalView();
-                frame2.show();
+                frame2.setVisible(true);
             }
         });
 
