@@ -1,0 +1,73 @@
+package com.practica1.analizador;
+
+import java_cup.runtime.*;
+
+parser code
+{:
+    private double resultado;
+    private String datos;
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
+    }
+    /**\
+    * Método al que se llama cuando se identifica un error sintáctico en el que
+    * ya no es posible una recuperación de errores.
+    **/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error síntactico irrecuperable en la Línea " +
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido.");
+    }
+:}
+
+
+terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE, CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE, PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
+non terminal s, gs, as, ta, fig,  col,  rec, int, op, sig, num, i;
+start with i;
+
+i::=error s
+    | s;
+
+s::=s gs
+    |s as
+    |gs
+    |as;
+
+gs::=GRAPH fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
+    |GRAPH rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
+    |GRAPH POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
+
+as::=ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR;
+
+ta::=LINE
+    |CURVE;
+
+fig::= CIRCLE
+    | SQUARE;
+
+rec::= LINE
+    | RECTA;
+
+col::= BLACK
+    | BLUE
+    | BROWN
+    | GREEN
+    | PINK
+    | PURPLE
+    | RED
+    | WHITE
+    | YELLOW;
+
+int::= int op
+    | num;
+
+op ::= sig num;
+
+sig::= PLUS
+    | DASH
+    | SLASH
+    | ASTER;
+
+num::= NUM
+    | DECIMAL;

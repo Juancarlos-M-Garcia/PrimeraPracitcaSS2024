@@ -1,6 +1,6 @@
 package com.practica1.analizador;
 
-import java.io;
+//import java.io;
 import java_cup.runtime.*;
 
 %%
@@ -60,7 +60,7 @@ WHITESPACE=[\t\f]|{LINETERMIANTOR}
 LINETERMIANTOR=\r|\n|\r\n
 //objetos para el analizador sintactico
 %{
-    StrignBuffer string = new StringBuffer();
+    StringBuffer string = new StringBuffer();
 
     private Symbol symbol (int type){
         return new Symbol (type, yyline, yycolumn);
@@ -82,7 +82,7 @@ LINETERMIANTOR=\r|\n|\r\n
     {CIR}       {return symbol(sym.CIRCLE, yytext());}
     {CUAD}      {return symbol(sym.SQUARE, yytext());}
     {LINE}      {return symbol(sym.LINE, yytext());}
-    {RECT}      {return symbol(sym.RECT, yytext());}
+    {RECT}      {return symbol(sym.RECTA, yytext());}
     {POLI}      {return symbol(sym.POLY, yytext());}
     {CURVE}     {return symbol(sym.CURVE, yytext());}
     {OBJECT}    {return symbol(sym.OBJECT, yytext());}

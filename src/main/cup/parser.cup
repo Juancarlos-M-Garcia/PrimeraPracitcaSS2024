@@ -1,0 +1,56 @@
+package com.practica1.analizador;
+
+import java_cup.runtime.*;
+
+class Parser;
+terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE, CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE, PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, COMA, ASTER, SLASH
+non terminal s, gs, as, ta, fig,  col,  rec, int, op, sig, num, i;
+start with i
+
+i::=error s
+    | s
+
+s::= s gs as
+    | s gs
+    | s as
+    | gs as
+    | gs
+    | as;
+
+gs::= GRAPH fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
+    | GRAPH rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
+    | GRAPH POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
+
+as::= ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR;
+
+ta::= LINE
+    | CURVE;
+
+fig::= CIRCLE
+    | SQUARE;
+
+rec::= LINE
+    | RECTA;
+
+col::= BLACK
+    | BLUE
+    | BROWN
+    | GREEN
+    | PINK
+    | PURPLE
+    | RED
+    | WHITE
+    | YELLOW;
+
+int::= int op
+    | num;
+
+op ::= sig num;
+
+sig::= PLUS
+    | DASH
+    | SLASH
+    | ASTER;
+
+num::= NUM
+    | DECIMAL;
