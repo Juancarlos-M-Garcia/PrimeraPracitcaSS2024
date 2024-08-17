@@ -22,8 +22,14 @@ parser code
 :}
 
 
-terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE, CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE, PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
-non terminal s, gs, as, ta, fig,  col,  rec, int, op, sig, num, i;
+terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE;
+terminal CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE;
+terminal PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
+non terminal s, gs, as, ta, fig,  col,  rec, int, i, gse, expresion;
+precedence left PLUS;
+precedence left DASH;
+precedence left SLASH;
+precedence left ASTER;
 start with i;
 
 i::=error s
@@ -34,9 +40,11 @@ s::=s gs
     |gs
     |as;
 
-gs::=GRAPH fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
-    |GRAPH rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
-    |GRAPH POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
+gs::=GRAPH gse;
+
+gse::=fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
+    |rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
+    |POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
 
 as::=ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR;
 
@@ -59,15 +67,13 @@ col::= BLACK
     | WHITE
     | YELLOW;
 
-int::= int op
-    | num;
+int::= expresion;
 
-op ::= sig num;
-
-sig::= PLUS
-    | DASH
-    | SLASH
-    | ASTER;
-
-num::= NUM
-    | DECIMAL;
+expresion ::= OPPAR expresion CLPAR
+    | expresion PLUS expresion
+    |  expresion DASH expresion
+    |  expresion ASTER expresion
+    |  expresion SLASH expresion
+    |  expresion OPPAR expresion CLPAR
+    |  NUM
+    |  DECIMAL;

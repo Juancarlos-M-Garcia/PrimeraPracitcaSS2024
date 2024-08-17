@@ -3,121 +3,117 @@ package com.practica1.views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java_cup.runtime.*;
 
-public class PrincipalView implements ActionListener{
+import com.practica1.analizador.sym;
+
+import com.practica1.analizador.parser;
+import com.practica1.analizador.lexerPractica1;
+import com.practica1.objects.Analisis;
+
+public class PrincipalView{
 
     JFrame frame;
-    private JTextArea TextArea;
+    private JTextArea textArea;
 
-    public PrincipalView(){
+    public PrincipalView() {
 
         // Crear el JFrame
         frame = new JFrame("Ejemplo de JTextArea");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(500, 300);
         frame.setLayout(new BorderLayout());
 
         // Crear el JTextArea
-        JTextArea textArea = new JTextArea(10, 30);
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        this.textArea = new JTextArea(10, 30);
+        JScrollPane scrollPane = new JScrollPane(this.textArea);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Crear el botón
-        JButton button = new JButton("Obtener Texto");
-        frame.add(button, BorderLayout.SOUTH);
+        //Crear panel para botones
+        JPanel ButtonPanel = new JPanel();
+        ButtonPanel.setLayout( new FlowLayout());
 
-        // Agregar el ActionListener al botón
-        button.addActionListener(new ActionListener() {
+        // Crear el botones
+        JButton buttonCompilar = new JButton("Obtener Texto");
+        JButton buttonImportar = new JButton("importar archivo");
+        JButton buttonGuardar = new JButton("GUARDAR ARCHIVO");
+        //se agregan los botones al panel
+        ButtonPanel.add(buttonCompilar, BorderLayout.SOUTH);
+        ButtonPanel.add(buttonImportar, BorderLayout.SOUTH);
+        ButtonPanel.add(buttonGuardar, BorderLayout.SOUTH);
+
+        //Se agrega el panel al frame
+        frame.add(ButtonPanel, BorderLayout.SOUTH);
+
+        // Agregar el ActionListener al primer boton botón
+        buttonCompilar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = textArea.getText();
+              AnalizarTexto();
+            }
+        });
 
-
-//                JOptionPane.showMessageDialog(frame, "Texto ingresado: " + text);
+        // Agregar el ActionListener al segundo botón
+        buttonImportar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                importarArchivoTxt();
             }
         });
 
         // Centrar el JFrame y hacerlo visible
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-//        this.frame = new JFrame();
-//        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.frame.setLocationRelativeTo(null);
-////        this.setLayout( new BorderLayout( 5, 15));
-//
-//        JPanel centerPanel = new JPanel(new BorderLayout());
-//        centerPanel.setMinimumSize(new Dimension(100, 200));
-//        generateContentCenterPanel(centerPanel);
-//
-//        JPanel southPanel = new JPanel(new GridLayout(2, 2));
-//
-//        southPanel.setLayout(new GridLayout(1, 5));
-////        southPanel.setMinimumSize();
-//        JButton ButtonCompilar = new JButton("Compilar");
-//        ButtonCompilar.setSize(20, 40);
-//        JButton ButtonImportar = new JButton("Importar");
-//        ButtonImportar.setSize(20, 40);
-//
-////        JButton ButtonCompilar = new JButton("Compilar");
-//        GridBagConstraints gbc = new GridBagConstraints();
-//
-//        gbc.gridx=0;
-//        gbc.gridy=1;
-//        southPanel.add(ButtonCompilar,gbc);
-//        gbc.gridx=0;
-//        gbc.gridy=3;
-//        southPanel.add(ButtonImportar,gbc);
-//
-//
-//        this.frame.add(centerPanel, BorderLayout.CENTER);
-//        this.frame.add(southPanel, BorderLayout.SOUTH);
-//        this.frame.pack();
-
-//        PrincipalFrame.add(topPanel, BorderLayout.NORTH);
-//        PrincipalFrame.add(centerPanel, BorderLayout.CENTER);
-//
-//        PrincipalFrame.pack();
-
-//        JPanel panel = new JPanel();
-//        panel.setLayout();
-//        generateInput(panel);
-
-
-
-//        PrincipalFrame.add(panel);
-
-
-    }
-
-//    private void generateInput(JPanel panel){
-//        TextArea = new JTextArea();
-////        TextArea.setBounds(5, 5, 100, 100);
-////        TextArea.setSize(400, 40);
-//
-//        panel.add(TextArea);
-//
-//    }
-
-    private void generateContentCenterPanel(JPanel panel){
-
-        JTextArea textArea = new JTextArea(20, 40);
-        textArea.setLayout(new BorderLayout());
-
-        JScrollPane sp = new JScrollPane(textArea);
-        sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        panel.add(sp);
-
-    }
-
-    private void generateContentSouthPanel(JPanel panel){
-
-    }
-
-    public void actionPerformed(ActionEvent e){
-
     }
 
 
+    public void AnalizarTexto(){
+        String text = this.textArea.getText();
+        StringReader sr= new StringReader(text);
 
+        lexerPractica1 lex = new lexerPractica1(sr);
+        parser par = new parser(lex);
+
+        try{
+//            Symbol token = lex.next_token();
+//            while ( token.value != null){
+//                System.out.println("prueba de tokens: "+ token.value );
+//                token= lex.next_token();
+//            }
+              par.parse();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        JOptionPane.showMessageDialog(frame, "A Ver: " + par);
     }
+
+    public void importarArchivoTxt(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar archivo");
+
+        int userSelection = fileChooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToOpen = fileChooser.getSelectedFile();
+
+            // Si no tiene extensión, agregar ".txt"
+            if (!fileToOpen.getName().endsWith(".txt")) {
+                fileToOpen = new File(fileToOpen.getAbsolutePath() + ".txt");
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(fileToOpen))) {
+                textArea.setText(""); // Limpiar el JTextArea antes de cargar nuevo contenido
+                String line;
+                StringBuilder content = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+                textArea.setText(content.toString());
+                JOptionPane.showMessageDialog(null, "Archivo guardado con éxito.");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error al guardar el archivo: " + ex.getMessage());
+            }
+        }
+    }
+}

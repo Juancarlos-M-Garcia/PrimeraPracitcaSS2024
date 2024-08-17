@@ -13,6 +13,16 @@ import java_cup.runtime.*;
 %column
 %cup
 
+//---simbolos:
+UNDERSCORE="_"
+PLUS="+"
+DASH="-"
+ASTERISK="*"
+SLASH="/"
+OPAR="("
+CPAR=")"
+COMMA=","
+DOT="."
 //conjuntos
 DIGITO = [0-9]
 LETRAS = [a-zA-Z]
@@ -24,7 +34,7 @@ ANMR=animar
 //figuras:
 CIR=circulo
 CUAD=cuadrado
-RECT=rectagunlo
+RECT=rectangulo
 LINE=linea
 POLI=poligono
 //---colores:
@@ -42,21 +52,12 @@ BLACK=negro
 CURVE=curva
 OBJECT=objeto
 BEFORE=anterior
-//---simbolos:
-UNDERSCORE="_"
-PLUS="+"
-DASH="-"
-ASTERISK="*"
-SLASH="/"
-OPAR="("
-CPAR=")"
-COMMA=","
-DOT="."
+
 //---espacios y saltos de linea
 //SALTOLINEA=\n
 //ESPA=\s
 //TAB=\t
-WHITESPACE=[\t\f]|{LINETERMIANTOR}
+WHITESPACE=[\t\f\s]|{LINETERMIANTOR}
 LINETERMIANTOR=\r|\n|\r\n
 //objetos para el analizador sintactico
 %{
@@ -77,6 +78,15 @@ LINETERMIANTOR=\r|\n|\r\n
 %%
 // @formatter:off
 <YYINITIAL> {
+
+    {OPAR}     {return symbol(sym.OPPAR, yytext());}
+    {CPAR}     {return symbol(sym.CLPAR, yytext());}
+    {DASH}     {return symbol(sym.DASH, yytext());}
+    {PLUS}     {return symbol(sym.PLUS, yytext());}
+    {COMMA}    {return symbol(sym.COMMA, yytext());}
+    {ASTERISK} {return symbol(sym.ASTER, yytext());}
+    {SLASH}    {return symbol(sym.SLASH, yytext());}
+
     {GFKR}      {return symbol(sym.GRAPH, yytext());}//aqui se generan la expresiones regular
     {ANMR}      {return symbol(sym.ANIME, yytext());}
     {CIR}       {return symbol(sym.CIRCLE, yytext());}
@@ -102,13 +112,6 @@ LINETERMIANTOR=\r|\n|\r\n
     {DIGITO}+   {return symbol(sym.NUM, yytext());}
     {LETRAS}({LETRAS}|{DIGITO}|{UNDERSCORE})*  {return symbol(sym.ID, yytext());}
 
-    {OPAR}     {return symbol(sym.OPPAR, yytext());}
-    {CPAR}     {return symbol(sym.CLPAR, yytext());}
-    {DASH}     {return symbol(sym.DASH, yytext());}
-    {PLUS}     {return symbol(sym.PLUS, yytext());}
-    {COMMA}    {return symbol(sym.COMMA, yytext());}
-    {ASTERISK} {return symbol(sym.ASTER, yytext());}
-    {SLASH}    {return symbol(sym.SLASH, yytext());}
 }
 // @formatter:on
 // para los saltos de linea. Estos se supone que se van a ignorar
