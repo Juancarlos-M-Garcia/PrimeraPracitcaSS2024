@@ -1,6 +1,6 @@
 package com.practica1.emuns.token;
 
-public enum Function {
+public enum Functions {
     GRAFICAR,
     ANIMAR,
 }

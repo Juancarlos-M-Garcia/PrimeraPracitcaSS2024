@@ -1,6 +1,6 @@
 package com.practica1.emuns.token;
 
-public enum Animation {
+public enum Animations {
     LINE,
     CURVE
 }
