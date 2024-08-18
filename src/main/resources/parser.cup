@@ -1,11 +1,22 @@
 package com.practica1.analizador;
 
 import java_cup.runtime.*;
+import com.practica1.emuns.token.*;
+import com.practica1.utilities.ReportData;
+import com.practica1.utilities.Analisis;
+import com.practica1.objects.Figure;
+import java.util.ArrayList;
+
 
 parser code
 {:
+
+    private boolean graphFlag= false;
     private double resultado;
     private String datos;
+
+    private ArrayList<Object> ListadoObjetos = new ArrayList<Object>();
+
 
     public void syntax_error(Symbol s){
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
@@ -19,13 +30,14 @@ parser code
         System.out.println("Error síntactico irrecuperable en la Línea " +
         (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido.");
     }
+
 :}
 
 
 terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE;
 terminal CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE;
 terminal PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
-non terminal s, gs, as, ta, fig,  col,  rec, int, i, gse, expresion;
+non terminal s, gs, as, ta, fig,  col,  rec, int, i, gse, expresion, term, data;
 precedence left PLUS;
 precedence left DASH;
 precedence left SLASH;
@@ -33,47 +45,53 @@ precedence left ASTER;
 start with i;
 
 i::=error s
-    | s;
+    | s:i  {:RESULT =i :};
 
 s::=s gs
-    |s as
-    |gs
-    |as;
+    |s:aa as:a  {:  :}
+    |gs:g       {: RESULT = g   :}
+    |as:a       {: RESULT = a    :};
 
-gs::=GRAPH gse;
+gs::=GRAPH gse ;
 
 gse::=fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
     |rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
     |POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
 
-as::=ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR;
+as::=ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR {: :}:
 
-ta::=LINE
-    |CURVE;
+ta::=LINE   {:RESULT = Animations.LINE :}
+    |CURVE  {:RESULT = Animations.LINE :};
 
-fig::= CIRCLE
-    | SQUARE;
+fig::= CIRCLE   {:RESULT = Figures.CIRCULO :}
+    | SQUARE    {:RESULT = Figures.CUADRADO :};
 
-rec::= LINE
-    | RECTA;
+rec::= LINE     {:RESULT = Figures.LINEA :}
+    | RECTA     {:RESULT = Figures.RECTANGULO :};
 
-col::= BLACK
-    | BLUE
-    | BROWN
-    | GREEN
-    | PINK
-    | PURPLE
-    | RED
-    | WHITE
-    | YELLOW;
+col::= BLACK:c     {: RESULT = Colors.BLACK; :}
+    | BLUE:c       {: RESULT = Colors.BLUE; :}
+    | BROWN:c      {: RESULT = Colors.BROWN; :}
+    | GREEN:c      {: RESULT = Colors.GREEN; :}
+    | PINK:c       {: RESULT = Colors.PINK; :}
+    | PURPLE:c     {: RESULT = Colors.PURPLE; :}
+    | RED:c        {: RESULT = Colors.RED; :}
+    | WHITE:c      {: RESULT = Colors.WHITE; :}
+    | YELLOW:c      {: RESULT= Colors.YELLOW :};
 
-int::= expresion;
+int::= expresion:exp                {:  RESULT = exp;  :}  ;
 
-expresion ::= OPPAR expresion CLPAR
-    | expresion PLUS expresion
-    |  expresion DASH expresion
-    |  expresion ASTER expresion
-    |  expresion SLASH expresion
-    |  expresion OPPAR expresion CLPAR
-    |  NUM
-    |  DECIMAL;
+
+term::= data:da                     {:  RESULT = da; :}
+       | term:op3 ASTER data:op2    {:  RESULT = Analisis.operar(Actions.MULTI, op3.toString(), op2.toString(), op3+"*"+op2 ); :}
+       | term:op4 SLASH data:op2    {:  RESULT = Analisis.operar(Actions.DIV, op4.toString(), op2.toString(), op4+"/"+op2); :};
+
+data::= NUM:n                       {: RESULT = n.toString(); :}
+    | DECIMAL:d                     {: RESULT = d.toString(); :}
+    | OPPAR expresion:op5 CLPAR     {: RESULT = op5; :};
+
+expresion::= term:t                 {: RESULT = t; :}
+    | expresion:op6 PLUS term:op2   {: RESULT = Analisis.operar(Actions.ADD, op6.toString(), op2.toString(), op6+"+"+op2 ); :}
+    | expresion:op7 DASH term:op2   {: RESULT = Analisis.operar(Actions.LESS, op7.toString(), op2.toString(), op7+"-"+op2); :};
+
+
