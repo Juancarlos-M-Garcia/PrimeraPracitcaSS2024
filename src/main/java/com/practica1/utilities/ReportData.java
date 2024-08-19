@@ -10,18 +10,24 @@ import java.util.*;
 public class ReportData {
     private static ArrayList<ObjectReport> figures = new ArrayList<ObjectReport>();
     private static ArrayList<ObjectReport> colors = new ArrayList<ObjectReport>();
-    private static ArrayList<ObjectReport> animetions = new ArrayList<ObjectReport>();
+    private static ArrayList<ObjectReport> animations = new ArrayList<ObjectReport>();
     private static ArrayList<OperationsReport> operations = new ArrayList<OperationsReport>();
     private static ArrayList<ErrorReport> errores = new ArrayList<ErrorReport>();
 
 
     public ReportData() {
+        figures = new ArrayList<ObjectReport>();
+        animations = new ArrayList<ObjectReport>();
+        colors = new ArrayList<ObjectReport>();
+        operations = new ArrayList<OperationsReport>();
+        errores = new ArrayList<ErrorReport>();
         GenerarListaColores();
         GenerarListaAnimaciones();
         GenerarListaFiguras();
     }
 
     public void GenerarListaFiguras() {
+
         figures.add(new ObjectReport(Figures.CIRCULO.toString(), 0));
         figures.add(new ObjectReport(Figures.CUADRADO.toString(), 0));
         figures.add(new ObjectReport(Figures.RECTANGULO.toString(), 0));
@@ -42,8 +48,8 @@ public class ReportData {
     }
 
     public void GenerarListaAnimaciones() {
-        animetions.add(new ObjectReport(Animations.LINE.toString(), 0));
-        animetions.add(new ObjectReport(Animations.CURVE.toString(), 0));
+        animations.add(new ObjectReport(Animations.LINE.toString(), 0));
+        animations.add(new ObjectReport(Animations.CURVE.toString(), 0));
     }
 
     public static void addFigure(Figures figure) {
@@ -66,7 +72,7 @@ public class ReportData {
         dataRep = buscarPorNombre(colors, color.toString());
         dataRep.setCantidad(dataRep.getCantidad() + 1);
     }
-
+// posible mejora pero aun no se ha probado asi que por eso mejor se queda comentado.
 //    public static  void addToReport(Enum type){
 //        ObjectReport dataRep;
 //        if(type instanceof Colors){
@@ -84,7 +90,7 @@ public class ReportData {
 
     public static void addAnimation(Animations anima) {
         ObjectReport dataRep;
-        dataRep = buscarPorNombre(animetions, anima.toString());
+        dataRep = buscarPorNombre(animations, anima.toString());
         dataRep.setCantidad(dataRep.getCantidad() + 1);
     }
 
@@ -92,13 +98,54 @@ public class ReportData {
         operations.add(new OperationsReport(action, line, column, op));
     }
 
-
-    public static ArrayList<ObjectReport> getDataForTable(int x){
-
-        switch (x){
+    public static Object[][] dataForTableReport(int x) {
+        switch (x) {
             case 1:
-                return
+                return createTableData(figures);
+            case 2:
+                return createTableData(colors);
+            case 3:
+                return createTableData(animations);
+            case 4:
+                return createTableDataOP(operations);
+            default:
+                return new Object[][]{{"", ""}};
         }
+    }
+
+    private static Object[][] createTableData(ArrayList<ObjectReport> items) {
+        int cantidadColumnas = items.get(0).getClass().getDeclaredFields().length;
+        Object[][] forTable = new Object[items.size()][cantidadColumnas];
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < cantidadColumnas; j++) {
+                if (j == 1) {
+                    forTable[i][j] = items.get(i).getCantidad();
+                }
+                else {
+                    forTable[i][j] = items.get(i).getName();
+                }
+            }
+        }
+        return forTable;
+    }
+
+    private static Object[][] createTableDataOP(ArrayList<OperationsReport> items) {
+        int cantidadColumnas = items.get(0).getClass().getDeclaredFields().length;
+        Object[][] forTable = new Object[items.size()][cantidadColumnas];
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < cantidadColumnas; j++) {
+                if (j == 0) {
+                    forTable[i][j] = items.get(i).getName();
+                }else if(j == 1){
+                    forTable[i][j] = items.get(i).getLine();
+                }else if(j == 2){
+                    forTable[i][j] = items.get(i).getColumn();
+                }else {
+                    forTable[i][j] = items.get(i).getLex();
+                }
+            }
+        }
+        return forTable;
     }
 
     public static ArrayList<ObjectReport> getFigures() {
@@ -109,8 +156,8 @@ public class ReportData {
         return colors;
     }
 
-    public static ArrayList<ObjectReport> getAnimetions() {
-        return animetions;
+    public static ArrayList<ObjectReport> getAnimations() {
+        return animations;
     }
 
     public static ArrayList<OperationsReport> getOperations() {

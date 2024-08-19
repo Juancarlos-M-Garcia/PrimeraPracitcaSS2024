@@ -1,6 +1,7 @@
 package com.practica1.objects;
 
 import com.practica1.emuns.token.Animations;
+import com.practica1.utilities.ReportData;
 
 public class Animation {
     private  Animations type;
@@ -12,7 +13,7 @@ public class Animation {
         this.type = type;
         this.posDestX = posDestX;
         this.posDestY = posDestY;
-        this.orden = orden;
+        ReportData.addAnimation(type);
     }
 
     public Animations getType() {

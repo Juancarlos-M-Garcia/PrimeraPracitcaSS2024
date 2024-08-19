@@ -5,6 +5,9 @@ import com.practica1.emuns.token.*;
 import com.practica1.objects.Figure;
 import com.practica1.objects.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Analisis {
 
 
@@ -15,7 +18,6 @@ public class Analisis {
             double resultado = 0 ;
             switch(act){
                 case LESS:
-
                    resultado = number1 - number2;
                     break;
                 case ADD:
@@ -30,13 +32,19 @@ public class Analisis {
             }
 
 //            ReportData.addOperation(act, line, column, lex);
-//            ReportData.addOperation(act, 0, 0, lex);
+            ReportData.addOperation(act, 0, 0, lex);
             System.out.println("Se realizo la siguiente operacion:"+lex);
-            System.out.println("Resultado:"+ resultado);
-            return resultado;
+            System.out.println("Resultado:"+ Redondeo(resultado));
+            return Redondeo(resultado);
         }catch(NumberFormatException e){
             return 0;
         }
+    }
+
+    private static double Redondeo(double number){
+        BigDecimal bd = new BigDecimal(Double.toString(number));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 
@@ -55,7 +63,7 @@ public class Analisis {
         switch (fig){
             case RECTANGULO:
                 return new Rectangle(name, width, height, posx, posy, col);
-            case CUADRADO:
+            case LINEA:
                 return new Line(name, posx, posy, width, height, col);
         }
         return null;
