@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
+import com.practica1.utilities.Analisis;
 import java_cup.runtime.*;
 
 import com.practica1.analizador.sym;
@@ -78,12 +80,8 @@ public class PrincipalView{
         parser par = new parser(lex);
 
         try{
-//            Symbol token = lex.next_token();
-//            while ( token.value != null){
-//                System.out.println("prueba de tokens: "+ token.value );
-//                token= lex.next_token();
-//            }
               par.parse();
+              Analisis.orderDataXGraphs();
               Report r = new Report();
               r.setVisible(true);
 
