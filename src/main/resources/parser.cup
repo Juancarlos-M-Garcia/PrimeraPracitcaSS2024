@@ -11,13 +11,6 @@ import java.util.ArrayList;
 parser code
 {:
 
-    private boolean graphFlag= false;
-    private double resultado;
-    private String datos;
-
-    private ArrayList<Object> ListadoObjetos = new ArrayList<Object>();
-
-
     public void syntax_error(Symbol s){
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
@@ -48,10 +41,10 @@ start with i;
 i::=error s
     | s:i;
 
-s::=s:a gs:b    {: ListadoObjetos.add(a); ListadoObjetos.add(b);    :}
-    |s:aa as:a  {: ListadoObjetos.add(aa); ListadoObjetos.add(a);   :}
-    |gs:g       {: RESULT = g ;  :}
-    |as:a       {: RESULT = a ;   :};
+s::=s:a gs:b    {: RESULT = Analisis.addObjectToGraph(b);  :}
+    |s:aa as:a  {: RESULT = Analisis.addObjectToGraph(a);  :}
+    |gs:g       {: RESULT = Analisis.addObjectToGraph(g);   :}
+    |as:a       {: RESULT = Analisis.addObjectToGraph(a);   :};
 
 gs::=GRAPH gse:gr   {:RESULT = gr; :};
 

@@ -213,13 +213,6 @@ public class parser extends lr_parser {
 
 
 
-    private boolean graphFlag= false;
-    private double resultado;
-    private String datos;
-
-    private ArrayList<Object> ListadoObjetos = new ArrayList<Object>();
-
-
     public void syntax_error(Symbol s){
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
@@ -304,7 +297,7 @@ class CUP$parser$actions {
 		int bleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((Symbol)CUP$parser$stack.peek()).right;
 		Object b = (Object)((Symbol) CUP$parser$stack.peek()).value;
-		 ListadoObjetos.add(a); ListadoObjetos.add(b);    
+		 RESULT = Analisis.addObjectToGraph(b);  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s",0, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -319,7 +312,7 @@ class CUP$parser$actions {
 		int aleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((Symbol)CUP$parser$stack.peek()).right;
 		Object a = (Object)((Symbol) CUP$parser$stack.peek()).value;
-		 ListadoObjetos.add(aa); ListadoObjetos.add(a);   
+		 RESULT = Analisis.addObjectToGraph(a);  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s",0, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -331,7 +324,7 @@ class CUP$parser$actions {
 		int gleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int gright = ((Symbol)CUP$parser$stack.peek()).right;
 		Object g = (Object)((Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = g ;  
+		 RESULT = Analisis.addObjectToGraph(g);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s",0, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -343,7 +336,7 @@ class CUP$parser$actions {
 		int aleft = ((Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((Symbol)CUP$parser$stack.peek()).right;
 		Object a = (Object)((Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = a ;   
+		 RESULT = Analisis.addObjectToGraph(a);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("s",0, ((Symbol)CUP$parser$stack.peek()), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
