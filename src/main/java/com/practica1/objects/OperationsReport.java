@@ -9,9 +9,14 @@ public class OperationsReport {
     private String lex;
 
     public OperationsReport(Actions action, int line, int column, String lex) {
-        this.name = DefinirNombre(action);
+        this.name = action.toString();
         this.line = line;
         this.column = column;
+        this.lex = lex;
+    }
+
+    public OperationsReport(Actions action, String lex) {
+        this.name = action.toString();
         this.lex = lex;
     }
 
