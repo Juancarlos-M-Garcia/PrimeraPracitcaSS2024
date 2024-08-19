@@ -65,5 +65,9 @@ public class Analisis {
         return new Polygon(name, width, height, sides, posx, posy, col);
     }
 
+    public static Animation CreateAnimation (Animations anim, double posDesx, double posDesy, double orden){
+        return new Animation(anim, posDesx, posDesy, orden);
+    }
+
 
 }
