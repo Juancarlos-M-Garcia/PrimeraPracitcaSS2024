@@ -382,8 +382,7 @@ class CUP$parser$actions {
 		int eleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int eright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object e = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-                System.out.println(e.getClass().getName());
-
+		
             RESULT = Analisis.CreateFigure((Figures)x, a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Double.parseDouble(d.toString()), (Colors)e);
             
               CUP$parser$result = parser.getSymbolFactory().newSymbol("gse",9, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-11)), ((Symbol)CUP$parser$stack.peek()), RESULT);
@@ -415,7 +414,7 @@ class CUP$parser$actions {
 		int fleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int fright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object f = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-                System.out.println(x.getClass().getName());
+		
             RESULT = Analisis.CreateFigure((Figures)x, a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Double.parseDouble(d.toString()), Double.parseDouble(e.toString()),(Colors)f);
             
               CUP$parser$result = parser.getSymbolFactory().newSymbol("gse",9, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-13)), ((Symbol)CUP$parser$stack.peek()), RESULT);
@@ -447,7 +446,7 @@ class CUP$parser$actions {
 		int gleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int gright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object g = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-                System.out.println(g.getClass().getName());
+		
             RESULT = Analisis.CreateFigure(a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Integer.parseInt(d.toString()),  Double.parseDouble(e.toString()), Double.parseDouble(f.toString()), (Colors)g );  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("gse",9, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-15)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -469,7 +468,7 @@ class CUP$parser$actions {
 		int dleft = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int dright = ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object d = (Object)((Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		    System.out.println(d.getClass().getName());
+		
             RESULT = Analisis.CreateAnimation((Animations)a, Double.parseDouble(b.toString()),Double.parseDouble(c.toString()),Double.parseDouble(d.toString()));  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("as",2, ((Symbol)CUP$parser$stack.elementAt(CUP$parser$top-11)), ((Symbol)CUP$parser$stack.peek()), RESULT);
             }
