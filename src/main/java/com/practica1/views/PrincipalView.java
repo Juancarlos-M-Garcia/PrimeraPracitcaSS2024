@@ -10,13 +10,13 @@ import com.practica1.analizador.sym;
 
 import com.practica1.analizador.parser;
 import com.practica1.analizador.lexerPractica1;
-import com.practica1.objects.Analisis;
+import com.practica1.utilities.ReportData;
 
 public class PrincipalView{
 
     JFrame frame;
     private JTextArea textArea;
-
+    public ReportData reports ;
     public PrincipalView() {
 
         // Crear el JFrame
@@ -69,6 +69,8 @@ public class PrincipalView{
 
 
     public void AnalizarTexto(){
+        reports = new ReportData();
+
         String text = this.textArea.getText();
         StringReader sr= new StringReader(text);
 
@@ -82,11 +84,13 @@ public class PrincipalView{
 //                token= lex.next_token();
 //            }
               par.parse();
+              Report r = new Report();
+              r.setVisible(true);
+
         } catch (Exception e) {
+            System.err.println("Error: " +e.getMessage());
             throw new RuntimeException(e);
         }
-
-        JOptionPane.showMessageDialog(frame, "A Ver: " + par);
     }
 
     public void importarArchivoTxt(){
