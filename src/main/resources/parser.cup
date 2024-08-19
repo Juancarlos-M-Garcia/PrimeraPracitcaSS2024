@@ -38,6 +38,7 @@ terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE;
 terminal CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE;
 terminal PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
 non terminal s, gs, as, ta, fig,  col,  rec, int, i, gse, expresion, term, data;
+
 precedence left PLUS;
 precedence left DASH;
 precedence left SLASH;
@@ -45,29 +46,35 @@ precedence left ASTER;
 start with i;
 
 i::=error s
-    | s:i  {:RESULT =i :};
+    | s:i;
 
-s::=s gs
-    |s:aa as:a  {:  :}
-    |gs:g       {: RESULT = g   :}
-    |as:a       {: RESULT = a    :};
+s::=s:a gs:b    {: ListadoObjetos.add(a); ListadoObjetos.add(b);    :}
+    |s:aa as:a  {: ListadoObjetos.add(aa); ListadoObjetos.add(a);   :}
+    |gs:g       {: RESULT = g ;  :}
+    |as:a       {: RESULT = a ;   :};
 
-gs::=GRAPH gse ;
+gs::=GRAPH gse:gr   {:RESULT = gr; :};
 
-gse::=fig OPPAR ID COMMA int COMMA int COMMA int COMMA col CLPAR
-    |rec OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR
-    |POLY OPPAR ID COMMA int COMMA int COMMA int COMMA int COMMA int COMMA col CLPAR;
+gse::=fig:x OPPAR ID:a COMMA int:b COMMA int:c COMMA int:d COMMA col:e CLPAR    {:
+            RESULT = Analisis.CreateFigure((Figures)x, a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Double.parseDouble(d.toString()), (Colors)e);
+            :}
+    |rec:x OPPAR ID:a COMMA int:b COMMA int:c COMMA int:d COMMA int:e COMMA col:f CLPAR   {:
+            RESULT = Analisis.CreateFigure((Figures)x, a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Double.parseDouble(d.toString()), Double.parseDouble(e.toString()),(Colors)f);
+            :}
+    |POLY OPPAR ID:a COMMA int:b COMMA int:c COMMA int:d COMMA int:e COMMA int:f COMMA col:g CLPAR {:
+            RESULT = Analisis.CreateFigure(a.toString(), Double.parseDouble(b.toString()), Double.parseDouble(c.toString()), Integer.parseInt(d.toString()),  Double.parseDouble(e.toString()), Double.parseDouble(f.toString()), (Colors)g );  :};
 
-as::=ANIME OBJECT BEFORE OPPAR ta COMMA int COMMA int COMMA int CLPAR {: :}:
+as::=ANIME OBJECT BEFORE OPPAR ta:a COMMA int:b COMMA int:c COMMA int:d CLPAR {:
+            RESULT = Analisis.CreateAnimation((Animations)a, Double.parseDouble(b.toString()),Double.parseDouble(c.toString()),Double.parseDouble(d.toString()));  :};
 
-ta::=LINE   {:RESULT = Animations.LINE :}
-    |CURVE  {:RESULT = Animations.LINE :};
+ta::=LINE   {:RESULT = Animations.LINE; :}
+    |CURVE  {:RESULT = Animations.CURVE; :};
 
-fig::= CIRCLE   {:RESULT = Figures.CIRCULO :}
-    | SQUARE    {:RESULT = Figures.CUADRADO :};
+fig::= CIRCLE   {:RESULT = Figures.CIRCULO; :}
+    | SQUARE    {:RESULT = Figures.CUADRADO; :};
 
-rec::= LINE     {:RESULT = Figures.LINEA :}
-    | RECTA     {:RESULT = Figures.RECTANGULO :};
+rec::= LINE     {:RESULT = Figures.LINEA; :}
+    | RECTA     {:RESULT = Figures.RECTANGULO; :};
 
 col::= BLACK:c     {: RESULT = Colors.BLACK; :}
     | BLUE:c       {: RESULT = Colors.BLUE; :}
@@ -77,7 +84,7 @@ col::= BLACK:c     {: RESULT = Colors.BLACK; :}
     | PURPLE:c     {: RESULT = Colors.PURPLE; :}
     | RED:c        {: RESULT = Colors.RED; :}
     | WHITE:c      {: RESULT = Colors.WHITE; :}
-    | YELLOW:c      {: RESULT= Colors.YELLOW :};
+    | YELLOW:c      {: RESULT= Colors.YELLOW; :};
 
 int::= expresion:exp                {:  RESULT = exp;  :}  ;
 
