@@ -1,0 +1,239 @@
+package com.practica1.analizador;
+
+import java_cup.runtime.*;
+import com.practica1.emuns.token.*;
+import com.practica1.utilities.*;
+import com.practica1.objects.Figure;
+import java.util.ArrayList;
+
+
+parser code
+{:
+
+    private boolean graphFlag= false;
+    private double resultado;
+    private String datos;
+
+    private ArrayList<Object> ListadoObjetos = new ArrayList<Object>();
+
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
+    }
+    /**\
+    * Método al que se llama cuando se identifica un error sintáctico en el que
+    * ya no es posible una recuperación de errores.
+    **/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error síntactico irrecuperable en la Línea " +
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido.");
+    }
+
+:}
+
+
+terminal GRAPH, ANIME, CIRCLE, SQUARE, RECTA, POLY, LINE;
+terminal CURVE, OBJECT, BEFORE, RED, BLUE, YELLOW, GREEN, BROWN, BLACK, WHITE;
+terminal PINK, PURPLE, ID, NUM, DECIMAL, OPPAR, CLPAR, DASH, PLUS, ASTER, SLASH, COMMA;
+terminal ERROR;
+non terminal ArbolSintactico s, gs, as, fig,  col,  rec, int, i, gse, expresion, term, data, ta;
+precedence left PLUS;
+precedence left DASH;
+precedence left SLASH;
+precedence left ASTER;
+start with i;
+
+i::=error s
+    | s:i  {: ArbolSintactico ar = new ArbolSintactico("s"):};
+
+s::=s:a gs:b    {: ArbolSintactico ar = new ArbolSintactico("s");
+                   ar.addHijo(new ArbolSintactico(a.toString()));
+                   ar.addHijo(new ArbolSintactico(b.toString()));
+                   RESULT = ar;    :}
+    |s:a as:b   {: ArbolSintactico ar = new ArbolSintactico("s");
+                   ar.addHijo(new ArbolSintactico(a.toString()));
+                   ar.addHijo(new ArbolSintactico(b.toString()));
+                   RESULT = ar;     :}
+    |gs:a       {: ArbolSintactico ar = new ArbolSintactico("s");
+                   ar.addHijo(new ArbolSintactico(a.toString()));
+                   RESULT = ar;     :}
+    |as:a       {: ArbolSintactico ar = new ArbolSintactico("s");
+                   ar.addHijo(new ArbolSintactico(a.toString()));
+                   RESULT = ar; :}
+
+gs::=GRAPH:a gse:b {: ArbolSintactico ar = new ArbolSintactico("gs");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    ar.addHijo(new ArbolSintactico(b.toString()));
+                    RESULT = ar; :};
+
+gse::=fig:a OPPAR:b ID:c COMMA:d int:e COMMA:f int:g COMMA:h int:i COMMA:j col:k CLPAR:l    {:
+                    ArbolSintactico ar = new ArbolSintactico("gse");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    ar.addHijo(new ArbolSintactico(b.toString()));
+                    ar.addHijo(new ArbolSintactico(c.toString()));
+                    ar.addHijo(new ArbolSintactico(d.toString()));
+                    ar.addHijo(new ArbolSintactico(e.toString()));
+                    ar.addHijo(new ArbolSintactico(f.toString()));
+                    ar.addHijo(new ArbolSintactico(g.toString()));
+                    ar.addHijo(new ArbolSintactico(h.toString()));
+                    ar.addHijo(new ArbolSintactico(i.toString()));
+                    ar.addHijo(new ArbolSintactico(j.toString()));
+                    ar.addHijo(new ArbolSintactico(k.toString()));
+                    ar.addHijo(new ArbolSintactico(l.toString()));
+                    RESULT = ar; :};
+    |rec:a OPPAR:b ID:c COMMA:d int:e COMMA:f int:g COMMA:h int:i COMMA:j int:k COMMA:l col:m CLPAR:n   {:
+                    ArbolSintactico ar = new ArbolSintactico("gse");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    ar.addHijo(new ArbolSintactico(b.toString()));
+                    ar.addHijo(new ArbolSintactico(c.toString()));
+                    ar.addHijo(new ArbolSintactico(d.toString()));
+                    ar.addHijo(new ArbolSintactico(e.toString()));
+                    ar.addHijo(new ArbolSintactico(f.toString()));
+                    ar.addHijo(new ArbolSintactico(g.toString()));
+                    ar.addHijo(new ArbolSintactico(h.toString()));
+                    ar.addHijo(new ArbolSintactico(i.toString()));
+                    ar.addHijo(new ArbolSintactico(j.toString()));
+                    ar.addHijo(new ArbolSintactico(k.toString()));
+                    ar.addHijo(new ArbolSintactico(l.toString()));
+                    ar.addHijo(new ArbolSintactico(m.toString()));
+                    ar.addHijo(new ArbolSintactico(n.toString()));
+                    RESULT = ar; :};
+    |POLY:a OPPAR:b ID:c COMMA:d int:e COMMA:f int:g COMMA:h int:i COMMA:j int:k COMMA:l int:m COMMA:n col:o CLPAR:p {:
+                    ArbolSintactico ar = new ArbolSintactico("gse");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    ar.addHijo(new ArbolSintactico(b.toString()));
+                    ar.addHijo(new ArbolSintactico(c.toString()));
+                    ar.addHijo(new ArbolSintactico(d.toString()));
+                    ar.addHijo(new ArbolSintactico(e.toString()));
+                    ar.addHijo(new ArbolSintactico(f.toString()));
+                    ar.addHijo(new ArbolSintactico(g.toString()));
+                    ar.addHijo(new ArbolSintactico(h.toString()));
+                    ar.addHijo(new ArbolSintactico(i.toString()));
+                    ar.addHijo(new ArbolSintactico(j.toString()));
+                    ar.addHijo(new ArbolSintactico(k.toString()));
+                    ar.addHijo(new ArbolSintactico(l.toString()));
+                    ar.addHijo(new ArbolSintactico(m.toString()));
+                    ar.addHijo(new ArbolSintactico(n.toString()));
+                    ar.addHijo(new ArbolSintactico(o.toString()));
+                    ar.addHijo(new ArbolSintactico(p.toString()));
+                    RESULT = ar; :};
+
+as::=ANIME:a OBJECT:b BEFORE:c OPPAR:d ta:e COMMA:f int:g COMMA:h int:i COMMA:j int:k CLPAR:l {:
+                    ArbolSintactico ar = new ArbolSintactico("as");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    ar.addHijo(new ArbolSintactico(b.toString()));
+                    ar.addHijo(new ArbolSintactico(c.toString()));
+                    ar.addHijo(new ArbolSintactico(d.toString()));
+                    ar.addHijo(new ArbolSintactico(e.toString()));
+                    ar.addHijo(new ArbolSintactico(f.toString()));
+                    ar.addHijo(new ArbolSintactico(g.toString()));
+                    ar.addHijo(new ArbolSintactico(h.toString()));
+                    ar.addHijo(new ArbolSintactico(i.toString()));
+                    ar.addHijo(new ArbolSintactico(j.toString()));
+                    ar.addHijo(new ArbolSintactico(k.toString()));
+                    ar.addHijo(new ArbolSintactico(l.toString()));
+                    RESULT = ar; :};
+ta::=LINE:a       {:
+                    ArbolSintactico ar = new ArbolSintactico("ta");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    |CURVE:a        {:
+                    ArbolSintactico ar = new ArbolSintactico("ta");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+
+fig::= CIRCLE:a   {:
+                    ArbolSintactico ar = new ArbolSintactico("fig");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | SQUARE:a    {:
+                    ArbolSintactico ar = new ArbolSintactico("fig");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+
+rec::= LINE:a     {:
+                    ArbolSintactico ar = new ArbolSintactico("rec");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | RECTA:a     {:
+                    ArbolSintactico ar = new ArbolSintactico("rec");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+
+col::= BLACK:a    {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | BLUE:a       {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | BROWN:a      {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | GREEN:a      {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | PINK:a       {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | PURPLE:a     {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | RED:a        {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | WHITE:a      {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+    | YELLOW:a      {:
+                    ArbolSintactico ar = new ArbolSintactico("col");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+
+int::=expresion:a   {:
+                       ArbolSintactico ar = new ArbolSintactico("int");
+                       ar.addHijo(new ArbolSintactico(a.toString()));
+                       RESULT = ar;    :}
+
+
+term::= data:a      {:
+                    ArbolSintactico ar = new ArbolSintactico("term");
+                    ar.addHijo(new ArbolSintactico(a.toString()));
+                    RESULT = ar;    :}
+       | term:a ASTER:b data:c   {:
+                                   ArbolSintactico ar = new ArbolSintactico("term");
+                                   ar.addHijo(new ArbolSintactico(a.toString()));
+                                   ar.addHijo(new ArbolSintactico(b.toString()));
+                                   ar.addHijo(new ArbolSintactico(c.toString()));
+                                   RESULT = ar;    :}
+       | term:op4 SLASH data:op2    {:
+                                    ArbolSintactico ar = new ArbolSintactico("term");
+                                    ar.addHijo(new ArbolSintactico(a.toString()));
+                                    RESULT = ar;    :}
+
+data::= NUM:n                       {:
+                                    ArbolSintactico ar = new ArbolSintactico("term");
+                                    ar.addHijo(new ArbolSintactico(a.toString()));
+                                    RESULT = ar;    :}
+    | DECIMAL:d                     {:
+                                                                        ArbolSintactico ar = new ArbolSintactico("term");
+                                                                        ar.addHijo(new ArbolSintactico(a.toString()));
+                                                                        RESULT = ar;    :}
+    | OPPAR expresion:op5 CLPAR     {:
+                                                                        ArbolSintactico ar = new ArbolSintactico("term");
+                                                                        ar.addHijo(new ArbolSintactico(a.toString()));
+                                                                        RESULT = ar;    :}
+
+expresion::= term:t                 {: RESULT = t; :}
+    | expresion:op6 PLUS term:op2   {: RESULT = Analisis.operar(Actions.ADD, op6.toString(), op2.toString(), op6+"+"+op2 ); :}
+    | expresion:op7 DASH term:op2   {: RESULT = Analisis.operar(Actions.LESS, op7.toString(), op2.toString(), op7+"-"+op2); :};
+
+
