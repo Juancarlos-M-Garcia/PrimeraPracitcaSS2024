@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FiguresPanel extends JPanel{
     private List<Shape> shapes;
@@ -108,10 +109,30 @@ public class FiguresPanel extends JPanel{
         int nPoints;
         Color color;
 
-        PolygonShape(int[] xPoints, int[] yPoints, Colors colors) {
-            this.xPoints = xPoints;
-            this.yPoints = yPoints;
-            this.nPoints = xPoints.length;
+        PolygonShape(double s, double w, double h, double px, double py, Colors colors) {
+
+            int sides = (int) Math.round(s);
+            int width = (int) Math.round(w);
+            int height = (int) Math.round(h);
+            int[] xP = new int[sides];
+            int[] yP = new int[sides];
+
+
+            int centerX = width / 2;
+            int centerY = height / 2;
+
+            int radius = Math.min(width, height) / 2;
+
+            for (int i = 0; i < sides; i++) {
+                double angle = 2 * Math.PI * i / sides - Math.PI / 2;
+                xP[i] = (int) Math.round(px)+ centerX + (int) (radius * Math.cos(angle));
+                yP[i] = (int) Math.round(py)+ centerY + (int) (radius * Math.sin(angle));
+            }
+
+
+            this.xPoints = xP;
+            this.yPoints = yP;
+            this.nPoints = xP.length;
             this.color = DrawFigures.DefineColor(colors);
         }
 
@@ -145,7 +166,40 @@ public class FiguresPanel extends JPanel{
         }
     }
 
-    public void fillFigures( ArrayList<Graficar> graficas){
+    @Override
+    public Dimension getPreferredSize() {
+        int maxX = 0;
+        int maxY = 0;
+
+        for (Shape shape : shapes) {
+            if (shape instanceof CircleShape) {
+                CircleShape c = (CircleShape) shape;
+                maxX = Math.max(maxX, c.x + c.radius);
+                maxY = Math.max(maxY, c.y + c.radius);
+            } else if (shape instanceof SquareShape) {
+                SquareShape s = (SquareShape) shape;
+                maxX = Math.max(maxX, s.x + s.sideLength);
+                maxY = Math.max(maxY, s.y + s.sideLength);
+            } else if (shape instanceof RectangleShape) {
+                RectangleShape r = (RectangleShape) shape;
+                maxX = Math.max(maxX, r.x + r.width);
+                maxY = Math.max(maxY, r.y + r.height);
+            } else if (shape instanceof LineShape) {
+                LineShape l = (LineShape) shape;
+                maxX = Math.max(maxX, Math.max(l.x1, l.x2));
+                maxY = Math.max(maxY, Math.max(l.y1, l.y2));
+            } else if (shape instanceof PolygonShape) {
+                PolygonShape p = (PolygonShape) shape;
+                for (int i = 0; i < p.nPoints; i++) {
+                    maxX = Math.max(maxX, p.xPoints[i]);
+                    maxY = Math.max(maxY, p.yPoints[i]);
+                }
+            }
+        }
+        return new Dimension(maxX + 10, maxY + 10);
+    }
+
+    public JScrollPane fillFigures( ArrayList<Graficar> graficas){
         this.shapes = new ArrayList<>();
         for (Graficar gr: graficas){
             Figure f = gr.getFig();
@@ -163,9 +217,11 @@ public class FiguresPanel extends JPanel{
                 this.addShape( new LineShape(l.getPosx1(), l.getPosy1(), l.getPosx2(), l.getPosy2(), l.getColor()));
             }else if(f instanceof Polygon){
                 Polygon p = (Polygon) f;
-
+                this.addShape(new PolygonShape(p.getSides(), p.getWidth(), p.getHeight(), p.getPosx(), p.getPosy(), p.getColor()));
             }
         }
+        JScrollPane sp = new JScrollPane(this);
+        return sp;
     }
 
 

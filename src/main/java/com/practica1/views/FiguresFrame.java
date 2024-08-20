@@ -16,7 +16,7 @@ public class FiguresFrame extends JFrame{
 
     private JPanel contentPanel;
     private CardLayout cardLayout;
-    private DrawFigures dr;
+    private final DrawFigures dr;
 
     public FiguresFrame() {
         dr = new DrawFigures(Analisis.getAnalizadorSintac());
@@ -31,8 +31,7 @@ public class FiguresFrame extends JFrame{
     public void fillContent(){
         // Crear el JTextArea
         FiguresPanel panel= new FiguresPanel();
-        panel.fillFigures(this.dr.getGraficos());
-        JScrollPane scrollPane = new JScrollPane(panel);
+        JScrollPane scrollPane = panel.fillFigures(DrawFigures.getGraficos());
         this.add(scrollPane, BorderLayout.CENTER);
 
 
