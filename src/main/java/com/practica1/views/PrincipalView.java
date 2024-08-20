@@ -86,7 +86,7 @@ public class PrincipalView{
         String text = this.textArea.getText();
         if (text.isEmpty()) {
             JOptionPane.showMessageDialog(this.frame.getParent(),
-                    "Debes de ingresar una expresion aritmetica...",
+                    "Debes de ingresar una funcion para graficar o animar",
                     "ERROR", 2);
         }else{
             DrawFigures.reset();
