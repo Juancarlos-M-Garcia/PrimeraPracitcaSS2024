@@ -5,11 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.practica1.objects.Circle;
-import com.practica1.objects.Figure;
-import com.practica1.objects.Graficar;
 import com.practica1.utilities.Analisis;
 import com.practica1.utilities.DrawFigures;
+import com.practica1.utilities.ToImagePNG;
 
 
 public class FiguresFrame extends JFrame{
@@ -38,6 +36,7 @@ public class FiguresFrame extends JFrame{
         JPanel buttonPanel = new JPanel();
         JButton button1 = new JButton("Reportes");
         JButton button2 = new JButton("Animar");
+        JButton button3 = new JButton("Exportar PNG");
 
 
         button1.addActionListener(new ActionListener() {
@@ -48,11 +47,15 @@ public class FiguresFrame extends JFrame{
             }
         });
 
+        button3.addActionListener(e->
+            ToImagePNG.exportPanelToPNG(panel,this)
+        );
+
 
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
-
+        buttonPanel.add(button3);
 
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
