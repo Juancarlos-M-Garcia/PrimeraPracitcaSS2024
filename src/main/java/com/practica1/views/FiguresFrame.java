@@ -2,12 +2,8 @@ package com.practica1.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import com.practica1.utilities.Analisis;
-import com.practica1.utilities.DrawFigures;
-import com.practica1.utilities.ToImagePNG;
+import com.practica1.utilities.*;
 
 
 public class FiguresFrame extends JFrame{
@@ -37,25 +33,17 @@ public class FiguresFrame extends JFrame{
         JButton button1 = new JButton("Reportes");
         JButton button2 = new JButton("Animar");
         JButton button3 = new JButton("Exportar PNG");
+        JButton button4 = new JButton("Exportar PDF");
 
 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Report r = new Report();
-                r.setVisible(true);
-            }
-        });
-
-        button3.addActionListener(e->
-            ToImagePNG.exportPanelToPNG(panel,this)
-        );
-
-
+        button1.addActionListener(e->{Report r = new Report();r.setVisible(true);});
+        button3.addActionListener(e->ToImagePNG.exportPanelToPNG(panel,this));
+        button4.addActionListener(e->toArchivePDF.exportPanelToPDF(panel));
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
         buttonPanel.add(button3);
+        buttonPanel.add(button4);
 
         this.add(buttonPanel, BorderLayout.SOUTH);
     }

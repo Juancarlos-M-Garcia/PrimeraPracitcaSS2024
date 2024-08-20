@@ -49,32 +49,12 @@ public class PrincipalView{
         ButtonPanel.add(buttonImportar, BorderLayout.SOUTH);
         ButtonPanel.add(buttonLimpiar, BorderLayout.SOUTH);
 
+        buttonCompilar.addActionListener(e-> AnalizarTexto());
+        buttonImportar.addActionListener(e-> importarArchivoTxt());
+        buttonLimpiar.addActionListener(e-> {textArea.setText("");});
+
         //Se agrega el panel al frame
         frame.add(ButtonPanel, BorderLayout.SOUTH);
-
-        // Agregar el ActionListener al primer boton botón
-        buttonCompilar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              AnalizarTexto();
-            }
-        });
-
-        // Agregar el ActionListener al segundo botón
-        buttonImportar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                importarArchivoTxt();
-            }
-        });
-
-        buttonLimpiar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.setText("");
-            }
-        });
-
         // Centrar el JFrame y hacerlo visible
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
