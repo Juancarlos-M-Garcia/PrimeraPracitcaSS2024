@@ -48,4 +48,11 @@ public class Figure {
         this.name = name;
     }
 
+    public double getPosx() {
+        return posx;
+    }
+
+    public double getPosy() {
+        return posy;
+    }
 }

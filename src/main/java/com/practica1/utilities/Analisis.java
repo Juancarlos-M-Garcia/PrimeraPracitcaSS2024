@@ -14,41 +14,12 @@ import java.util.Comparator;
 
 public class Analisis {
     private static ArrayList<Object> analizadorSintac = new ArrayList<>();
-    private static ArrayList<Graficar> conAnimacion = new ArrayList<>();
-    private static ArrayList<Graficar> graficos = new ArrayList<>();
 
     public static Object addObjectToGraph(Object object ){
         analizadorSintac.add(object);
         return object;
     }
 
-    public static void orderDataXGraphs(){
-        Graficar gr = null;
-        for (Object o: analizadorSintac ){
-            if(o instanceof Figure){
-                if(gr != null){
-                    graficos.add(gr);
-                }
-                gr = new Graficar((Figure) o);
-            }else if( o instanceof Animation){
-                if(gr != null ){
-                    gr.setAnim((Animation) o);
-                    graficos.add(gr);
-                    conAnimacion.add(gr);
-                    gr = null;
-                }
-            }
-        }
-    }
-
-    public static void odernarAnimacion(){
-        Collections.sort(conAnimacion, new Comparator<Graficar>() {
-            @Override
-            public int compare(Graficar g1, Graficar g2) {
-                return Double.compare(g1.getAnim().getOrden(), g2.getAnim().getOrden());
-            }
-        });
-    }
 
     public static ArrayList<Object> getAnalizadorSintac() {
         return analizadorSintac;
@@ -56,14 +27,6 @@ public class Analisis {
 
     public static void setAnalizadorSintac(ArrayList<Object> analizadorSintac) {
         Analisis.analizadorSintac = analizadorSintac;
-    }
-
-    public static ArrayList<Graficar> getConAnimacion() {
-        return conAnimacion;
-    }
-
-    public static void setConAnimacion(ArrayList<Graficar> conAnimacion) {
-        Analisis.conAnimacion = conAnimacion;
     }
 
     public static double operar (Actions act, String exp1, String exp2, String lex){
@@ -129,8 +92,6 @@ public class Analisis {
     }
 
     public static void reset(){
-        conAnimacion = new ArrayList<>();
-        graficos = new ArrayList<>();
         analizadorSintac = new ArrayList<>();
     }
 

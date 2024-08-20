@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.practica1.objects.Figure;
 import com.practica1.utilities.Analisis;
+import com.practica1.utilities.DrawFigures;
 import java_cup.runtime.*;
 
 import com.practica1.analizador.sym;
@@ -37,13 +41,13 @@ public class PrincipalView{
         ButtonPanel.setLayout( new FlowLayout());
 
         // Crear el botones
-        JButton buttonCompilar = new JButton("Obtener Texto");
-        JButton buttonImportar = new JButton("importar archivo");
-        JButton buttonGuardar = new JButton("GUARDAR ARCHIVO");
+        JButton buttonCompilar = new JButton("Compilar");
+        JButton buttonImportar = new JButton("Importar archivo");
+        JButton buttonLimpiar = new JButton("Limpiar");
         //se agregan los botones al panel
         ButtonPanel.add(buttonCompilar, BorderLayout.SOUTH);
         ButtonPanel.add(buttonImportar, BorderLayout.SOUTH);
-        ButtonPanel.add(buttonGuardar, BorderLayout.SOUTH);
+        ButtonPanel.add(buttonLimpiar, BorderLayout.SOUTH);
 
         //Se agrega el panel al frame
         frame.add(ButtonPanel, BorderLayout.SOUTH);
@@ -64,6 +68,13 @@ public class PrincipalView{
             }
         });
 
+        buttonLimpiar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText("");
+            }
+        });
+
         // Centrar el JFrame y hacerlo visible
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -72,22 +83,41 @@ public class PrincipalView{
 
     public void AnalizarTexto(){
         reports = new ReportData();
-
         String text = this.textArea.getText();
-        StringReader sr= new StringReader(text);
+        if (text.isEmpty()) {
+            JOptionPane.showMessageDialog(this.frame.getParent(),
+                    "Debes de ingresar una expresion aritmetica...",
+                    "ERROR", 2);
+        }else{
+            DrawFigures.reset();
+            Analisis.reset();
+            StringReader sr= new StringReader(text);
 
-        lexerPractica1 lex = new lexerPractica1(sr);
-        parser par = new parser(lex);
+            lexerPractica1 lex = new lexerPractica1(sr);
+            parser par = new parser(lex);
 
-        try{
-              par.parse();
-              Analisis.orderDataXGraphs();
-              Report r = new Report();
-              r.setVisible(true);
+            try{
+            par.parse();
+            FiguresFrame ff = new FiguresFrame();
+            Runtime rt = Runtime.getRuntime();
+            try {
+                Thread.sleep(5000);
+                //Esperamos medio segundo para dar tiempo a que la imagen se genere
+                rt.exec("nohup display graf1.jpg ");
+                ff.setVisible(true);
+                } catch (IOException ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                }
 
-        } catch (Exception e) {
-            System.err.println("Error: " +e.getMessage());
-            throw new RuntimeException(e);
+            //              Report r = new Report();
+            //              r.setVisible(true);
+
+            } catch (Exception e) {
+                System.err.println("Error: " +e.getMessage());
+                throw new RuntimeException(e);
+            }
         }
     }
 
