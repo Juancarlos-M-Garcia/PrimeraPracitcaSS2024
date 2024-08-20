@@ -144,9 +144,9 @@ public class PrincipalView{
                     content.append(line).append("\n");
                 }
                 textArea.setText(content.toString());
-                JOptionPane.showMessageDialog(null, "Archivo guardado con éxito.");
+                JOptionPane.showMessageDialog(null, "Archivo importado con exito");
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al guardar el archivo: " + ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al importar el archivo: " + ex.getMessage());
             }
         }
     }
