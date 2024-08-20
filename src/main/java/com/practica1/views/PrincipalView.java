@@ -94,6 +94,7 @@ public class PrincipalView{
             StringReader sr= new StringReader(text);
 
             lexerPractica1 lex = new lexerPractica1(sr);
+            @Deprecated
             parser par = new parser(lex);
 
             try{
