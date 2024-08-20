@@ -6,7 +6,8 @@ package com.practica1.analizador;
 
 //import java.io;
 import java_cup.runtime.*;
-
+import com.practica1.utilities.ReportData;
+import com.practica1.emuns.token.ErrorType;
 
 @SuppressWarnings("fallthrough")
 public class lexerPractica1 implements Scanner {
@@ -788,7 +789,8 @@ public class lexerPractica1 implements Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.err.println("warning: Unreconized character: '" + yytext()+"'  --ignored at line: "+(yyline+1)) ;
+            { System.err.println("warning: Unreconized character: '" + yytext()+"'  --ignored at line: "+(yyline+1));
+                ReportData.addError(ErrorType.LEXICO, (yyline+1),(yycolumn+1), yytext(), "El simbolo no pertenece al lenguaje"  );
             }
           // fall through
           case 32: break;

@@ -23,9 +23,8 @@ public class Report extends JFrame{
         }
 
         public void contruccionSinErrores(){
-            setTitle("Table Switcher");
+            setTitle("Reportes");
             setSize(600, 400);
-//            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setLayout(new BorderLayout());
 
             // Crear el panel con CardLayout para cambiar entre tablas
@@ -33,8 +32,7 @@ public class Report extends JFrame{
             contentPanel = new JPanel(cardLayout);
 
             // Crear las tablas y añadirlas al panel
-            contentPanel.add(createTablePanel("Reporte de figuras procesadas", new String[]{"Figura", "Cantidad de uso"}, ReportData.dataForTableReport(1))
-                   , "Table 1");
+            contentPanel.add(createTablePanel("Reporte de figuras procesadas", new String[]{"Figura", "Cantidad de uso"}, ReportData.dataForTableReport(1)), "Table 1");
             contentPanel.add(createTablePanel("Reporte de colores", new String[]{"Color", "Cantidad de veces usado"}, ReportData.dataForTableReport(2)), "Table 2");
             contentPanel.add(createTablePanel("Reporte de animaciones", new String[]{"Tipo de animacion", "cantidad de veces que aparece"}, ReportData.dataForTableReport(3)), "Table 3");
             contentPanel.add(createTablePanel("Reporte de operaciones", new String[]{"Operador", "Fila","Columna","Ocurrencia"}, ReportData.dataForTableReport(4)), "Table 4");
@@ -61,9 +59,8 @@ public class Report extends JFrame{
         }
 
         public void contrccionErrores(){
-            setTitle("Table Switcher");
+            setTitle("Reporte de Errores");
             setSize(600, 400);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setLayout(new BorderLayout());
 
             // Crear el panel con CardLayout para cambiar entre tablas
@@ -71,31 +68,8 @@ public class Report extends JFrame{
             contentPanel = new JPanel(cardLayout);
 
             // Crear las tablas y añadirlas al panel
-            contentPanel.add(createTablePanel("Tabla de errores", new String[]{"Lexema", "Tipo", "Descripcion"}, new Object[][]{
-                    {"Row 1", "Data 1"},
-                    {"Row 2", "Data 2"},
-                    {"Row 3", "Data 2"}
-            }), "Table 1");
+            contentPanel.add(createTablePanel("Tabla de errores", new String[]{"Lexema", "Fila", "Columna","Tipo", "Descripcion"}, ReportData.dataForTableReport(5)), "Table 1");
 
-
-            // Crear botones para cambiar entre tablas
-//            JPanel buttonPanel = new JPanel();
-//            JButton button1 = new JButton("Show Table 1");
-//            JButton button2 = new JButton("Show Table 2");
-//            JButton button3 = new JButton("Show Table 3");
-//            JButton button4 = new JButton("Show Table 4");
-//
-//            button1.addActionListener(new ButtonClickListener("Table 1"));
-//            button2.addActionListener(new ButtonClickListener("Table 2"));
-//            button3.addActionListener(new ButtonClickListener("Table 3"));
-//            button4.addActionListener(new ButtonClickListener("Table 4"));
-//
-//            buttonPanel.add(button1);
-//            buttonPanel.add(button2);
-//            buttonPanel.add(button3);
-//            buttonPanel.add(button4);
-
-//            add(buttonPanel, BorderLayout.NORTH);
             add(contentPanel, BorderLayout.CENTER);
         }
 

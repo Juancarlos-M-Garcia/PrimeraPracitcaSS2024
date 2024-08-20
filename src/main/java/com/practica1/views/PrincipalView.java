@@ -97,23 +97,25 @@ public class PrincipalView{
             parser par = new parser(lex);
 
             try{
-            par.parse();
-            FiguresFrame ff = new FiguresFrame();
-            Runtime rt = Runtime.getRuntime();
-            try {
-                Thread.sleep(5000);
-                //Esperamos medio segundo para dar tiempo a que la imagen se genere
-                rt.exec("nohup display graf1.jpg ");
-                ff.setVisible(true);
-                } catch (IOException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                par.parse();
+
+                if(ReportData.getErrores().isEmpty()){
+                    FiguresFrame ff = new FiguresFrame();
+                    Runtime rt = Runtime.getRuntime();
+                    try {
+                        Thread.sleep(5000);
+                        //Esperamos medio segundo para dar tiempo a que la imagen se genere
+                        rt.exec("nohup display graf1.jpg ");
+                        ff.setVisible(true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    Report r = new Report();
+                    r.setVisible(true);
                 }
-
-            //              Report r = new Report();
-            //              r.setVisible(true);
-
             } catch (Exception e) {
                 System.err.println("Error: " +e.getMessage());
                 throw new RuntimeException(e);

@@ -20,16 +20,6 @@ public class OperationsReport {
         this.lex = lex;
     }
 
-    public String DefinirNombre(Actions action){
-        return switch (action) {
-            case ADD -> "Suma";
-            case LESS -> "Resta";
-            case MULTI -> "Multiplicación";
-            case DIV -> "Division";
-        };
-
-    }
-
     public String getName() {
         return name ;
     }

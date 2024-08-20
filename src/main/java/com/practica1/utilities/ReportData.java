@@ -98,6 +98,10 @@ public class ReportData {
         operations.add(new OperationsReport(action, line, column, op));
     }
 
+    public static void addError(ErrorType error, int line, int column, String op, String des){
+        errores.add(new ErrorReport(error, line, column, op, des));
+    }
+
     public static Object[][] dataForTableReport(int x) {
         switch (x) {
             case 1:
@@ -108,6 +112,8 @@ public class ReportData {
                 return createTableData(animations);
             case 4:
                 return createTableDataOP(operations);
+            case 5:
+                return createTableDataErrors(errores);
             default:
                 return new Object[][]{{"", ""}};
         }
@@ -142,6 +148,27 @@ public class ReportData {
                     forTable[i][j] = items.get(i).getColumn();
                 }else {
                     forTable[i][j] = items.get(i).getLex();
+                }
+            }
+        }
+        return forTable;
+    }
+
+    private static Object[][] createTableDataErrors(ArrayList<ErrorReport> items) {
+        int cantidadColumnas = items.get(0).getClass().getDeclaredFields().length;
+        Object[][] forTable = new Object[items.size()][cantidadColumnas];
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < cantidadColumnas; j++) {
+                if (j == 0) {
+                    forTable[i][j] = items.get(i).getLexem();
+                }else if(j == 1){
+                    forTable[i][j] = items.get(i).getLine();
+                }else if(j == 2){
+                    forTable[i][j] = items.get(i).getColumn();
+                }else if(j == 3){
+                    forTable[i][j] = items.get(i).getType().toString();
+                }else {
+                    forTable[i][j] = items.get(i).getDescription();
                 }
             }
         }
